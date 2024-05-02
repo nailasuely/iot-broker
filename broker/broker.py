@@ -7,6 +7,8 @@ from flask_cors import CORS
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(asctime)s - %(message)s')
 
+#192.168.0.181
+
 class Broker:
     def __init__(self, data_port, command_port):
         self.ipHost = '0.0.0.0'
@@ -47,7 +49,7 @@ class Broker:
             data, sender_address = self.data_sock.recvfrom(1024)
             message = json.loads(data.decode())
             logging.info(f"Dados recebidos do dispositivo: '{message['source']}': {message['data']}")
-            self.datas[message['source']] = message['data']
+            self.datas[message['source']] = message
             #o envio dos dados recebidos para todas as conexões com a aplicação
             with self.lock:
                 for connection in self.datas.values():
@@ -95,6 +97,19 @@ class Broker:
             print("\n\n\n o registro", connection, "\n\n\n")
             logging.info(f"Device '{name}' registered")
 
+    def send_change_name_command(self, device_name, new_name):
+        command = f"change_name {new_name}"
+        self.send_command_to_device(device_name, command)
+        self.change_device_name(device_name, new_name) 
+        
+    def change_device_name(self, antigo_name, new_name):
+        with self.lock:
+            if antigo_name in self.devices:
+                self.devices[new_name] = self.devices.pop(antigo_name)
+                logging.info(f"Device name changed from '{antigo_name}' to '{new_name}'")
+            else:
+                logging.error(f"Device '{antigo_name}' not found")
+
     def send_command_to_device(self, device_name, command):
         with self.lock:
             if device_name in self.devices:
@@ -124,6 +139,19 @@ def get_devices():
     devices = list(broker.devices.keys())
     print(devices)
     return json.dumps(devices)
+
+@app.route('/devices/<device_name>/name', methods=['PUT'])
+def change_device_name(device_name):
+    new_name = request.json.get('new_name')
+    if new_name:
+        if device_name in broker.devices:
+            broker.send_change_name_command(device_name, new_name)
+            return jsonify({'message': f'Device name changed to "{new_name}"'}), 200
+        else:
+            return jsonify({'error': f'Device "{device_name}" not registered'}), 404
+    else:
+        return jsonify({'error': 'New name not provided'}), 400
+    
 
 # Rota para obter dados do dispositivo
 @app.route('/devices/<device_name>/data', methods=['GET']) 
