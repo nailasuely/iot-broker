@@ -34,6 +34,7 @@ gh repo clone nailasuely/iot-broker
 ## Sumário
 - [Visão Geral do Projeto](#visao-geral-do-projeto)
 - [Tecnologias e Ferramentas Utilizadas](#Tecnologias-e-Ferramentas-Utilizadas)
+- [Como utilizar](#Como-Utilizar)
 - [Tutor](#tutor)
 - [Equipe](#equipe)
 - [Referências](#referências)
@@ -44,8 +45,48 @@ gh repo clone nailasuely/iot-broker
 ## Visão Geral do Projeto
 
 
+## Como utilizar
 
+1. Clone ou faça o download do repositório.
+2. Use o comando "cd" para seguir o caminho até encontrar a pasta adequada.
 
+### Execução do Broker:
+
+1. **Usando Docker:**
+    - Vá até o diretório no qual o serviço broker está localizado.
+    - Execute o seguinte comando para iniciar o serviço broker:
+        ```
+        docker container run -it --network host broker-service
+        ```
+2. **Execução Convencional:**
+    - Vá até o diretório no qual o serviço broker está localizado.
+        ```
+       python3 broker.py
+        ```
+
+### Execução dos Dispositivos Virtuais:
+   - Após iniciar o serviço broker, abra um novo terminal e vá até o diretório em que os dispositivos virtuais estão localizados.
+        ```
+       python3 Nome_do_Dispositivo.py 
+        ```
+
+### Execução dos Aplicação (com interfaace):
+1. **Usando Docker:**
+    - Vá até o diretório no qual a interface está localizada.
+    - Execute o seguinte comando para iniciar o serviço broker:
+        ```
+        docker compose up client --build
+        ```
+2. **Execução Convencional:**
+    - Vá até o diretório no qual a interface está localizada.
+    - Você precisa ter todas as dependências instaladas.
+        ```
+        npm install
+        ```
+        ```
+        npm start
+        ```
+### Execução pelo Postman:
 ![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
 
 ## Tecnologias e Ferramentas Utilizadas
