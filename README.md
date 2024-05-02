@@ -83,7 +83,7 @@ gh repo clone nailasuely/iot-broker
         ```
         docker compose up client --build
         ```
-      
+        
 2. **Execução Convencional:**
     - Vá até o diretório no qual a interface está localizada.
     - Você precisa ter todas as dependências instaladas.
