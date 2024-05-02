@@ -119,7 +119,7 @@
 }*/
 
 .project .maincontainer .left {
-  width: calc(100% - 30%);
+  width: calc(100% - 20%);
   overflow-y: scroll;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -136,8 +136,7 @@
   position: relative;
 }
 
-/* Outras regras .contain continuam abaixo... */
-/* Continuação das regras .contain */
+
 
 .project .maincontainer .left .banner .textContainer {
   position: absolute;
@@ -331,7 +330,8 @@
 }
 
 .project .maincontainer .right .bottom_card .bottomCard_name h4 {
-  font-size: 14px;
+  font-size: 20px;
+  font-weight: bold;
   color: #d1d0d5;
 }
 

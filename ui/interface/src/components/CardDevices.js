@@ -1,42 +1,4 @@
-/*import projImg1 from "../assets/img/img-view3.png";
-import React from "react";
-import TopSeller from "./TopSeller";
-import "./MainContainer.css";
-
-function CardDevices({ devices }) {
-    return (
-      <div className="bottom_card">
-        <div className="bottomCard_name">
-          <h2>Dispositivos Conectados</h2>
-        </div>
-  
-        {Array.isArray(devices) && devices.length > 0 ? (
-          devices.map((device, index) => (
-            <div className="topSeller" key={index}>
-              <div className="topSellerImg">
-                <img src={projImg1} alt="" />
               </div>
-              <div className="topSellerName">
-                
-                  {device}
-                
-              </div>
-              <a href="#" className="button btm">
-                Alterar nome
-              </a>
-
-            </div>
-          ))
-        ) : (
-          <p>Nenhum dispositivo encontrado</p>
-        )}
-      </div>
-    );
-  }
-  
-  export default CardDevices;
-  */
-
 
 import projImg1 from "../assets/img/img-view3.png";
 import React, { useState } from 'react';
@@ -70,7 +32,9 @@ function CardDevices({ devices }) {
                 <DeviceName deviceName={currentDevice} onSubmit={handleDeviceNameSubmit} />
             ) : (
                 <div >
+                  <div className="bottomCard_name">
                     <h4>Dispositivos Conectados</h4>
+                    </div>
                     {Array.isArray(devices) && devices.length > 0 ? (
                         devices.map((device, index) => (
                             <div className="topSeller" key={index}>
@@ -86,7 +50,7 @@ function CardDevices({ devices }) {
                             </div>
                         ))
                     ) : (
-                        <p>Nenhum dispositivo encontrado</p>
+                        <a>Nenhum dispositivo encontrado</a>
                     )}
                 </div>
             )}

@@ -38,7 +38,7 @@ export const DeviceName= ({ deviceName, onSubmit }) => {
     <div className="newsletter-bx wow slideInUp">
       <Row>
         <Col lg={12} md={6} xl={5}>
-          <h3>Change Device Name</h3>
+          <h3>Novo nome:</h3>
         </Col>
       </Row>
       <Row>

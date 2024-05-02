@@ -1,7 +1,6 @@
 import React from "react";
 import "./MainContainer.css";
 import Banner from "../assets/img/color-sharp.png";
-import CardMain from "./CardMain";
 import Card1 from "../assets/img/img-view3.png";
 import Card2 from "../assets/img/img-view3.png";
 import Card3 from "../assets/img/img-view3.png";
