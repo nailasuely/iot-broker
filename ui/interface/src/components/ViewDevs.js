@@ -20,7 +20,7 @@ export const ViewDevices = () => {
 
   const fetchDevices = async () => {
     try {
-      const response = await fetch('http://192.168.0.181:5001/devices');
+      const response = await fetch(`http://${IP}:5001/devices`);
       const devices = await response.json();
       const availableDevices = devices.slice(0, 6); // Limita a 6 dispositivos, dps melhorar isso
       const deviceProjects = availableDevices.map(device => ({
@@ -46,7 +46,7 @@ export const ViewDevices = () => {
   const fetchData = async (deviceName) => {
     try {
       if (deviceName !== 'Não conectado') { // Verifica se o nome do dispositivo é diferente de 'Não conectado'
-        const response = await fetch(`http://192.168.0.181:5001/devices/${deviceName}/data`);
+        const response = await fetch(`http://${IP}:5001/devices/${deviceName}/data`);
         console.log((response))
         const responseData = await response.json();
         if (response.ok) {

@@ -11,7 +11,7 @@ export const DeviceName= ({ deviceName, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://192.168.0.181:5001/devices/${deviceName}/name`, {
+      const response = await fetch(`http://${IP}:5001/devices/${deviceName}/name`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'

@@ -1,10 +1,11 @@
 import { Col, Tab, Nav } from "react-bootstrap";
 import TrackVisibility from 'react-on-screen';
+import { IP } from "./IP";
 
 export const ProjectCard = ({ title, description, imgUrl, data }) => {
   const handleCommand = async (command) => {
     try {
-      const response = await fetch(`http://192.168.0.181:5001/devices/${title}/command`, {
+      const response = await fetch(`http://${IP}:5001/devices/${title}/command`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
