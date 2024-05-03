@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Col, Row, Alert } from "react-bootstrap";
+import { IP } from "./IP";
 
 export const DeviceName= ({ deviceName, onSubmit }) => {
   const [newName, setNewName] = useState('');

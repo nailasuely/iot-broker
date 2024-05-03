@@ -132,7 +132,7 @@ if __name__ == "__main__":
     data_server_port = 9999
     broker_port = 9998
     broker_host = input("IP do broker para enviar dados: ")
-    sensor_name = "TemperatureNaila"
+    sensor_name = "TemperatureSensor"
 
     sensor = VirtualSensor(server_ip, data_server_port, broker_host, broker_port, sensor_name)
     sensor.start() 

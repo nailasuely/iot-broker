@@ -7,6 +7,8 @@ import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import MainContainer from "./MainContainer";
 import Contain from "./Container";
+import { IP } from "./IP";
+
 
 
 export const ViewDevices = () => {
@@ -43,31 +45,37 @@ export const ViewDevices = () => {
 
   const fetchData = async (deviceName) => {
     try {
-      const response = await fetch(`http://192.168.0.181:5001/devices/${deviceName}/data`);
-      const responseData = await response.json();
-      if (response.ok) {
-        if (responseData.data && responseData.data.data) { // Verifica se responseData.data e responseData.data.data não são undefined
-          // Adicionar os dados brutos ao histórico de dados brutos
-          addToRawData(responseData.data);
-  
-          // Armazenar apenas o campo "data" em deviceData
-          setDeviceData(prevState => {
-            const newData = responseData.data.data;
-            return {
-              ...prevState,
-              [deviceName]: newData
-            };
-          });
+      if (deviceName !== 'Não conectado') { // Verifica se o nome do dispositivo é diferente de 'Não conectado'
+        const response = await fetch(`http://192.168.0.181:5001/devices/${deviceName}/data`);
+        console.log((response))
+        const responseData = await response.json();
+        if (response.ok) {
+          if (responseData.data && responseData.data.data) { // Verifica se responseData.data e responseData.data.data não são undefined
+            // Adicionar os dados brutos ao histórico de dados brutos
+            addToRawData(responseData.data);
+    
+            // Armazenar apenas o campo "data" em deviceData
+            setDeviceData(prevState => {
+              const newData = responseData.data.data;
+              return {
+                ...prevState,
+                [deviceName]: newData
+              };
+            });
+          } else {
+            console.error(`Invalid data received for ${deviceName}:`, responseData);
+          }
         } else {
-          console.error(`Invalid data received for ${deviceName}:`, responseData);
+          console.error(`Failed to fetch data for ${deviceName}:`, responseData.error);
         }
       } else {
-        console.error(`Failed to fetch data for ${deviceName}:`, responseData.error);
+        console.error(`Device is not connected: ${deviceName}`);
       }
     } catch (error) {
       console.error(`Error fetching data for ${deviceName}:`, error);
     }
   };
+  
 
   // Função para adicionar dados ao histórico de dados 
   const addToRawData = (data) => {

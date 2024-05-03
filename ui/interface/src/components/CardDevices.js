@@ -1,5 +1,3 @@
-              </div>
-
 import projImg1 from "../assets/img/img-view3.png";
 import React, { useState } from 'react';
 import "./MainContainer.css";
