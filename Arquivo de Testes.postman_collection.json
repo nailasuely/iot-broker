@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "cdf39b94-d0ae-43c0-af2f-a33c1bec092f",
+		"name": "Arquivo de Testes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "34259573"
+	},
+	"item": [
+		{
+			"name": "Listar Dispositivos",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5001/devices"
+			},
+			"response": []
+		},
+		{
+			"name": "Alterar nome do Dispositivo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"new_name\": \"SensorNovoNome\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5001/devices/TemperatureSensor/name"
+			},
+			"response": []
+		},
+		{
+			"name": "Obter dados",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:5001/devices/SensorNovoNome/data"
+			},
+			"response": []
+		},
+		{
+			"name": "Ligar Dispositivo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"command\": \"turn_on\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5001/devices/SensorNovoNome/command"
+			},
+			"response": []
+		},
+		{
+			"name": "Desligar Dispositivo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"command\": \"turn_off\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:5001/devices/SensorNovoNome/command"
+			},
+			"response": []
+		},
+		{
+			"name": "Reiniciar Dispositivo",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
