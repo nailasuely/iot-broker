@@ -75,7 +75,7 @@ gh repo clone nailasuely/iot-broker
      - Insira o IP do broker.
      - Insira o nome do dispositivo. 
 
-### • Execução dos Aplicação (com interfaace):
+### • Execução dos Aplicação (com interface):
 1. **Usando Docker:**
     - Vá até o diretório no qual a interface está localizada.
     - Execute o seguinte comando para iniciar o serviço broker:
