@@ -33,8 +33,8 @@ gh repo clone nailasuely/iot-broker
 
 ## Sumário
 - [Como utilizar](#Como-utilizar)
-- [Tutor](#tutor)
 - [Equipe](#equipe)
+- [Tutor](#tutor)
 - [Referências](#referências)
 
 ![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
