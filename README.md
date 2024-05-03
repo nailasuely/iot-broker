@@ -102,7 +102,7 @@ gh repo clone nailasuely/iot-broker
 1. **Abra o Postman:**
 
 2. **Importe a Coleção:**
-   - Importe a [`coleção`](https://github.com/nailasuely/iot-broker/blob/main/Arquivo%20de%20Testes.postman_collection.json). de requests no formato JSON.
+   - Importe a [coleção](https://github.com/nailasuely/iot-broker/blob/main/Arquivo%20de%20Testes.postman_collection.json) de requests no formato JSON.
      
 3. **Execute as Requests:**
    - Dentro da coleção importada, existem algumas requests para testar a API.
