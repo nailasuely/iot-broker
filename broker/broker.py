@@ -18,6 +18,7 @@ class Broker:
         self.command_port = command_port
         self.devices = {}
         self.datas = {}
+        self.last_operation = None
         # coisa p ajudar o acesso compartilhado em vários recursos compartilhados pelas threads
         # estava tendo um errinho nessa parte, resolver depois + 
         self.lock = threading.Lock()
@@ -44,6 +45,12 @@ class Broker:
     def start_escutarDados(self):
         threading.Thread(target=self.processData).start()
 
+    def update_last_operation(self, operation_type, device_name=None):
+        self.last_operation = {"type": operation_type, "device_name": device_name}
+    
+    def get_last_operation(self):
+        return self.last_operation
+
     def processData(self):
         while True:
             data, sender_address = self.data_sock.recvfrom(1024)
@@ -68,35 +75,39 @@ class Broker:
                     data = connection.recv(1024).decode()
                     if not data:
                         logging.info(f"Conexão fechada com: {sender_address}")
-                        # Remove o dispositivo da lista quando a conexão é fechada
                         with self.lock:
                             for name, connectionection in list(self.devices.items()):
                                 if connectionection == connection:
                                     del self.devices[name]
-                                    logging.info(f"Dipositivo '{name}' desconectado")
+                                    logging.info(f"Dispositivo '{name}' desconectado")
                         break
                     message = json.loads(data)
                     if message["type"] == "register":
-                        self.register_device(message["name"], connection)
+                        device_name = message["name"]
+                        self.register_device(device_name, connection)
+                        self.update_last_operation("register", device_name)
                     elif message["type"] == "command":
                         device_name = message["device"]
                         command = message["command"]
+                        print("\n\n\n\ opa opa opa")
+                        self.update_last_operation(command, device_name)
                         self.send_command_to_device(device_name, command)
+                        
                     elif message["type"] == "shutdown":
                         device_name = message["name"]
                         self.shutdown_device(device_name)
+                        self.update_last_operation("shutdown", device_name)
                     elif message["type"] == "change_name":
                         old_name = message["old_name"]
                         new_name = message["new_name"]
                         self.change_device_name(old_name, new_name)
+                        self.update_last_operation("change_name", new_name)
                     else:
                         logging.error("Mensagem inválida recebida pela aplicação")
-                except ConnectionResetError as e:
-                    logging.error(f"Conexão fechada abruptamente pelo host remoto: {e}")
-                    break
                 except Exception as e:
                     logging.error(f"Erro para gerenciar com a conexão da aplicação: {e}")
                     break
+
 
     def register_device(self, name, connection):
         with self.lock:
@@ -179,11 +190,20 @@ def send_command(device_name):
         # se o dispositivo não estiver registrado, não passa daqui 
         if device_name in broker.devices:  
             broker.send_command_to_device(device_name, command)
-            #return jsonify({'message': f'Command "{command}" sent to device "{device_name}"'})
+            broker.update_last_operation(command, device_name)
+            return jsonify({'message': f'Command "{command}" sent to device "{device_name}"'}), 200
         else:
             return jsonify({'error': f'Device "{device_name}" not registered'}), 404
     else:
         return jsonify({'error': 'C5mand not provided'}), 400
+    
+@app.route('/last_command', methods=['GET'])
+def get_last_command():
+    last_command = broker.get_last_operation()
+    if last_command:
+        return jsonify({'last_command': last_command}), 200
+    else:
+        return jsonify({'error': 'Nenhum comando foi dado ainda'}), 404
 
 if __name__ == "__main__":
     threading.Thread(target=broker.start).start()

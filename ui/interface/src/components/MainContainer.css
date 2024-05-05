@@ -356,6 +356,11 @@
   font-weight: bold;
 }
 
+.lastCommandText {
+  white-space: pre-line;
+  text-align: center;
+}
+
 .project .maincontainer .right .topCard .earning p:nth-child(odd) {
   background: #211d3a;
   border-radius: 5px;
