@@ -8,7 +8,7 @@ from flask_cors import CORS
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(asctime)s - %(message)s')
 
 #192.168.0.181
-
+#/home/tec502/Downloads/iot-broker-main/broker
 class Broker:
     def __init__(self, data_port, command_port):
         self.ipHost = '0.0.0.0'
@@ -84,18 +84,28 @@ class Broker:
                         device_name = message["device"]
                         command = message["command"]
                         self.send_command_to_device(device_name, command)
+                    elif message["type"] == "shutdown":
+                        device_name = message["name"]
+                        self.shutdown_device(device_name)
                     else:
                         logging.error("Mensagem inválida recebida pela aplicação")
                 except Exception as e:
                     logging.error(f"Erro para gerenciar com a conexão da aplicação: {e}")
                     break
-
+                
 
     def register_device(self, name, connection):
         with self.lock:
             self.devices[name] = connection
-            print("\n\n\n o registro", connection, "\n\n\n")
             logging.info(f"Device '{name}' registered")
+
+    def shutdown_device(self, device_name):
+        with self.lock:
+            if device_name in self.devices:
+                del self.devices[device_name]
+                logging.info(f"Device '{device_name}' removido do dicionário do broker")
+            else:
+                logging.error(f"Device '{device_name}' não encontrado no dicionário do broker")
 
     def send_change_name_command(self, device_name, new_name):
         command = f"change_name {new_name}"
@@ -115,7 +125,6 @@ class Broker:
             if device_name in self.devices:
                 try:
                     connection = self.devices[device_name]
-                    print("\n\n\n", connection, "\n\n\n")
                     connection.send(command.encode())
                     logging.info(f"Comando '{command}' enviado para o dispositivo: '{device_name}'")
                 except Exception as e:
@@ -137,7 +146,6 @@ broker = Broker(9998, 9999)
 @app.route('/devices', methods=['GET'])  # Rota para listar os dispositivos
 def get_devices():
     devices = list(broker.devices.keys())
-    print(devices)
     return json.dumps(devices)
 
 @app.route('/devices/<device_name>/name', methods=['PUT'])
@@ -167,11 +175,11 @@ def send_command(device_name):
         # se o dispositivo não estiver registrado, não passa daqui 
         if device_name in broker.devices:  
             broker.send_command_to_device(device_name, command)
-            return jsonify({'message': f'Command "{command}" sent to device "{device_name}"'})
+            #return jsonify({'message': f'Command "{command}" sent to device "{device_name}"'})
         else:
             return jsonify({'error': f'Device "{device_name}" not registered'}), 404
     else:
-        return jsonify({'error': 'Command not provided'}), 400
+        return jsonify({'error': 'C5mand not provided'}), 400
 
 if __name__ == "__main__":
     threading.Thread(target=broker.start).start()

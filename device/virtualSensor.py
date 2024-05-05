@@ -37,7 +37,7 @@ class VirtualSensor:
                    "state": "on" if self.is_on else "off"}
         try:
             self.sock_data.sendto(json.dumps(message).encode(), (self.broker_host, self.broker_port))
-            logging.info(f"Sensor '{self.sensor_name}' sent data to broker: {data}")
+            #logging.info(f"Sensor '{self.sensor_name}' sent data to broker: {data}")
         except Exception as e:
             logging.error(f"Error sending data to broker: {e}")
 
@@ -52,7 +52,7 @@ class VirtualSensor:
         self.sensor_name = new_name
         logging.info(f"Sensor name changed to '{new_name}'")
 
-    def start(self):
+    '''def start(self):
         try:
             logging.info("Sensor data generation started")
             while True:
@@ -63,7 +63,39 @@ class VirtualSensor:
         except KeyboardInterrupt:
             logging.info("Stopping sensor data generation...")
             self.sock_data.close()
-            self.sock_cmd.close()
+            self.sock_cmd.close()'''
+    
+    def start(self):
+        try:
+            # Tentar se conectar ao broker e registrar-se
+            self.register_with_broker()
+
+            logging.info("Sensor data generation started")
+            while True:
+                data = self.generate_data()
+                if data:
+                    self.send_data_to_broker(data)
+                time.sleep(self.data_generation_interval)
+
+        except Exception as e:
+            logging.error(f"Error in sensor operation: {e}")
+            logging.info("Attempting to reconnect and register...")
+
+            # Tentar se reconectar e registrar em um loop separado
+            self.reconnect_and_register_loop()
+
+    def reconnect_and_register_loop(self):
+        while True:
+            try:
+                # Tentar se reconectar e registrar com o broker
+                self.register_with_broker()
+
+                logging.info("Reconnected and registered with broker")
+                break  # Sair do loop se a reconexão for bem-sucedida
+
+            except Exception as e:
+                logging.error(f"Error in reconnection process: {e}")
+                time.sleep(5)  # Esperar um tempo antes de tentar reconectar
 
     def register_with_broker(self):
         try:
@@ -87,8 +119,6 @@ class VirtualSensor:
                 self.process_command(command)
         except Exception as e:
             logging.error(f"Error receiving commands: {e}")
-
-            
 
     def process_command(self, command):
         if command == "turn_on":
@@ -127,12 +157,60 @@ class VirtualSensor:
         self.turn_on()
         logging.info("Sensor restarted")
 
+    def stop(self):
+        try:
+            self.sock_data.close()
+            self.sock_cmd.close()
+            logging.info("Sensor stopped")
+        except Exception as e:
+            logging.error(f"Error stopping sensor: {e}")
+
+def menu():
+    print("\nMenu:")
+    print("1. Ligado")
+    print("2. Desligado")
+    print("3. Trocar nome do sensor")
+    print("4. Trocar intervalo de geração de dados")
+    print("5. Sair")
+
+    choice = input("Escolha uma opção: ")
+    return choice
+
 if __name__ == "__main__":
     server_ip = input("IP do Servidor para se registrar: ")
     data_server_port = 9999
     broker_port = 9998
-    broker_host = input("IP do broker para enviar dados: ")
     sensor_name = "TemperatureSensor"
 
-    sensor = VirtualSensor(server_ip, data_server_port, broker_host, broker_port, sensor_name)
-    sensor.start() 
+    sensor = VirtualSensor(server_ip, data_server_port, server_ip, broker_port, sensor_name)
+
+    # Iniciar o dispositivo e conectar ao broker
+    sensor_thread = threading.Thread(target=sensor.start)
+    sensor_thread.start()
+
+    # Exibir o menu de controle
+    while True:
+        choice = menu()
+
+        if choice == "1":
+            if not sensor.is_on:
+                sensor.turn_on()
+            else:
+                print("O sensor já está ligado.")
+        elif choice == "2":
+            if sensor.is_on:
+                sensor.turn_off()
+            else:
+                print("O sensor já está desligado.")
+        elif choice == "3":
+            new_name = input("Digite o novo nome para o sensor: ")
+            sensor.change_sensor_name(new_name)
+        elif choice == "4":
+            new_interval = int(input("Digite o novo intervalo (em segundos) para geração de dados: "))
+            sensor.data_generation_interval = new_interval
+        elif choice == "5":
+            print("Encerrando...")
+            sensor.stop()  # Adicione uma função stop() para encerrar o dispositivo
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
