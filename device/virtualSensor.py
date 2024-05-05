@@ -167,10 +167,9 @@ class VirtualSensor:
 
 def menu():
     print("\nMenu:")
-    print("1. Ligado")
-    print("2. Desligado")
+    print("1. Ligar")
+    print("2. Desligar")
     print("3. Trocar nome do sensor")
-    print("4. Trocar intervalo de geração de dados")
     print("5. Sair")
 
     choice = input("Escolha uma opção: ")
@@ -205,9 +204,6 @@ if __name__ == "__main__":
         elif choice == "3":
             new_name = input("Digite o novo nome para o sensor: ")
             sensor.change_sensor_name(new_name)
-        elif choice == "4":
-            new_interval = int(input("Digite o novo intervalo (em segundos) para geração de dados: "))
-            sensor.data_generation_interval = new_interval
         elif choice == "5":
             print("Encerrando...")
             sensor.stop()  # Adicione uma função stop() para encerrar o dispositivo
