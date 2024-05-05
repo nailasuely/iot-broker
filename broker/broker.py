@@ -104,14 +104,6 @@ class Broker:
                             
 
     def manageDeviceConnection(self, connection, sender_address):
-        """
-        Feito para gerenciar as conexões com o dispositivo, sendo responsável por 
-        gerenciar as conexões com os dispositivos conectados ao broker 
-
-        Args:
-            connection (socket.socket): Socket de conexão com o dispositivo.
-            sender_address (tuple): Endereço do dispositivo.
-        """
         with connection:
             logging.info(f"Nova conexão com: {sender_address}")
             while True:
@@ -120,8 +112,8 @@ class Broker:
                     if not data:
                         logging.info(f"Conexão fechada com: {sender_address}")
                         with self.lock:
-                            for name, connectionection in list(self.devices.items()):
-                                if connectionection == connection:
+                            for name, conn in list(self.devices.items()):
+                                if conn == connection:
                                     del self.devices[name]
                                     logging.info(f"Dispositivo '{name}' desconectado")
                         break
@@ -151,10 +143,17 @@ class Broker:
                         self.update_last_operation(action, device_name)
                     else:
                         logging.error("Mensagem inválida recebida pela aplicação")
+                except ConnectionResetError:
+                    logging.error(f"O dispositivo em {sender_address} foi desconectado abruptamente")
+                    with self.lock:
+                        for name, conn in list(self.devices.items()):
+                            if conn == connection:
+                                del self.devices[name]
+                                logging.info(f"Dispositivo '{name}' removido da lista de dispositivos devido à desconexão")
+                    break
                 except Exception as e:
                     logging.error(f"Erro para gerenciar com a conexão da aplicação: {e}")
                     break
-
     def register_device(self, name, connection):
         """
         Registra a conexão de um dispositivo na lista de dispostivios.
