@@ -32,7 +32,7 @@ class VirtualSensor:
                    "state": "on" if self.is_on else "off"}
         try:
             self.sock_data.sendto(json.dumps(message).encode(), (self.broker_host, self.broker_port))
-            logging.info(f"Sensor '{self.sensor_name}' sent data to broker: {data}")
+            #logging.info(f"Sensor '{self.sensor_name}' sent data to broker: {data}")
         except Exception as e:
             logging.error(f"Error sending data to broker: {e}")
 
@@ -44,8 +44,12 @@ class VirtualSensor:
         return ""
 
     def change_sensor_name(self, new_name):
+        old_name = self.sensor_name
         self.sensor_name = new_name
-        logging.info(f"Sensor name changed to '{new_name}'")
+        logging.info(f"Sensor name changed from '{old_name}' to '{new_name}'")
+        # Enviar mensagem ao broker informando a mudança de nome
+        change_name_message = {"type": "change_name", "old_name": old_name, "new_name": new_name}
+        self.sock_cmd.send(json.dumps(change_name_message).encode())
 
     def start(self):
         while self.is_running:
@@ -147,6 +151,7 @@ class VirtualSensor:
         # Fechar os sockets
         self.sock_data.close()
         self.sock_cmd.close()
+
     
 def menu(sensor):
     print("\nMenu:")
@@ -159,15 +164,12 @@ def menu(sensor):
     while True:
         choice = input("Escolha uma opção: ")
         if choice == "1":
-            sensor.turn_on()
-            break
+            sensor.turn_on()  
         elif choice == "2":
             sensor.turn_off()
-            break
         elif choice == "3":
             new_name = input("Digite o novo nome para o sensor: ")
             sensor.change_sensor_name(new_name)
-            break
         elif choice == "4":
             new_interval = int(input("Digite o novo intervalo (em segundos) para geração de dados: "))
             sensor.data_generation_interval = new_interval

@@ -61,8 +61,6 @@ class Broker:
                             
 
     def manageDeviceConnection(self, connection, sender_address):
-        # oq eu usei para entender como usar conexões/bloco de contexo: 
-        # https://docs.kanaries.net/pt/topics/Python/context-manager-python
         with connection:
             logging.info(f"Nova conexão com: {sender_address}")
             while True:
@@ -87,12 +85,18 @@ class Broker:
                     elif message["type"] == "shutdown":
                         device_name = message["name"]
                         self.shutdown_device(device_name)
+                    elif message["type"] == "change_name":
+                        old_name = message["old_name"]
+                        new_name = message["new_name"]
+                        self.change_device_name(old_name, new_name)
                     else:
                         logging.error("Mensagem inválida recebida pela aplicação")
+                except ConnectionResetError as e:
+                    logging.error(f"Conexão fechada abruptamente pelo host remoto: {e}")
+                    break
                 except Exception as e:
                     logging.error(f"Erro para gerenciar com a conexão da aplicação: {e}")
                     break
-                
 
     def register_device(self, name, connection):
         with self.lock:

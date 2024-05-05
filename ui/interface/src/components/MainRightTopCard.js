@@ -1,6 +1,7 @@
 import React from "react";
 
-function MainRightTopCard() {
+function MainRightTopCard({ rawData }) {
+  console.log(rawData)
   return (
     <div className="topCard">
       <div className="topCard_name">
@@ -9,23 +10,15 @@ function MainRightTopCard() {
 
       <div className="earning">
         <p>
-          Dispositivo Conectados <span>187</span>
+          Dispositivo Ligados <span>187</span>
         </p>
 
         <p>
-          Dispositivos Ligados <span>5</span>
+          Dispositivos Desligados <span>5</span>
         </p>
 
         <p>
-          Dispositivos Desligados <span>25</span>
-        </p>
-
-        <p>
-          Quantidade <span>200</span>
-        </p>
-
-        <p>
-          Total <span>262 ETH</span>
+          Dispositivos Conectados <span>25</span>
         </p>
       </div>
     </div>

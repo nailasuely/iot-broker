@@ -62,8 +62,9 @@ function MainContainer({ datas, devices, projects, devicesDatas}) {
         </div>
       </div>
       <div className="right">
-        <MainRightTopCard />
+        <MainRightTopCard rawData={devices} />
         <CardDevices devices={devices} />
+       
       </div>
     </div>
   );
