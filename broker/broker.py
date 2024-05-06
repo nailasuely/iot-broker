@@ -5,6 +5,8 @@ import threading
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import time
+from datetime import datetime, timedelta
+
 
 #192.168.0.181
 
@@ -37,6 +39,7 @@ class Broker:
         self.setup_data_server()
         self.setup_command_server()
         self.ip = '0.0.0.0'
+        self.device_data_timestamp = {}
 
     def setup_data_server(self):
         """
@@ -94,6 +97,9 @@ class Broker:
             message = json.loads(data.decode())
             logging.info(f"Dados recebidos do dispositivo: '{message['source']}': {message['data']}")
             self.datas[message['source']] = message
+
+            self.device_data_timestamp[message['source']] = datetime.now()
+
             with self.lock:
                 for connection in self.datas.values():
                     if isinstance(connection, socket.socket):
@@ -165,6 +171,7 @@ class Broker:
         with self.lock:
             self.devices[name] = connection
             logging.info(f"Device '{name}' registrado")
+            self.device_data_timestamp[name] = datetime.now()
 
     def shutdown_device(self, device_name):
         """
@@ -204,6 +211,8 @@ class Broker:
             if antigo_name in self.devices:
                 self.devices[new_name] = self.devices.pop(antigo_name)
                 logging.info(f"Device name changed from '{antigo_name}' to '{new_name}'")
+                if antigo_name in self.device_data_timestamp:
+                    self.device_data_timestamp[new_name] = self.device_data_timestamp.pop(antigo_name)
             else:
                 logging.error(f"Device '{antigo_name}' não encontrado")
 
@@ -258,6 +267,30 @@ class Broker:
                     self.shutdown_device(device_name)
                     logging.info(f"Device '{device_name}' removido da lista de dispositivos devido à inatividade")
             time.sleep(timeout / 2)  
+
+    def check_data_status(self):
+        """
+        Verifica se os dados estão sendo recebidos de todos os dispositivos.
+        """
+        current_time = datetime.now()
+        no_data_threshold = timedelta(seconds=15)  # Limite de tempo sem dados para considerar que os dados não estão sendo recebidos
+
+        devices_to_remove = []  # Lista para armazenar os dispositivos que devem ser removidos
+
+        with self.lock:
+            for device_name, last_data_time in self.device_data_timestamp.items():
+                if current_time - last_data_time > no_data_threshold:
+                    print(f"Não estão sendo recebidos dados do dispositivo '{device_name}' há mais de 5 segundos.")
+                    devices_to_remove.append(device_name)
+
+            # Remover os dispositivos que não enviaram dados por mais de 5 segundos
+            for device_name in devices_to_remove:
+                if device_name in self.devices:
+                    del self.devices[device_name]
+                    logging.info(f"Device '{device_name}' removido do dicionário do broker")
+                    # Remove o registro de tempo do último dado recebido para o dispositivo desconectado
+                    if device_name in self.device_data_timestamp:
+                        del self.device_data_timestamp[device_name]
                 
     def start(self):
         """
@@ -340,6 +373,7 @@ def send_command(device_name):
     else:
         return jsonify({'error': 'Command not provided'}), 400
     
+
 @app.route('/last_command', methods=['GET'])
 def get_last_command():
     """
@@ -354,6 +388,16 @@ def get_last_command():
     else:
         return jsonify({'error': 'Nenhum comando foi dado ainda'}), 404
 
+
+def check_data_status_periodically():
+    """
+    Verifica periodicamente se os dados estão sendo recebidos de todos os dispositivos.
+    """
+    while True:
+        time.sleep(5)  # Verificar a cada 5 segundos
+        broker.check_data_status()
+
 if __name__ == "__main__":
     threading.Thread(target=broker.start).start()
+    threading.Thread(target=check_data_status_periodically).start()
     app.run(host=broker.ip, port=5001)

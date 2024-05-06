@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { IP } from "./IP";
 
 function MainRightTopCard() {
   const [lastCommand, setLastCommand] = useState("");
@@ -6,7 +7,7 @@ function MainRightTopCard() {
   // Função para obter o último comando
   const fetchLastCommand = async () => {
     try {
-      const response = await fetch("http://192.168.0.181:5001/last_command");
+      const response = await fetch(`http://${IP}:5001/last_command`);
       const data = await response.json();
       const { last_command } = data;
 
@@ -58,6 +59,9 @@ function MainRightTopCard() {
         </p>
         <p className="lastCommandText">
           {lastCommand}
+        </p>
+        <p>
+          Avisos 
         </p>
       </div>
     </div>
