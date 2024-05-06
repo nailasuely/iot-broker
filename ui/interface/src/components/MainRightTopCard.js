@@ -41,11 +41,11 @@ function MainRightTopCard() {
     }
   };
 
-  // Atualizar o último comando periodicamente
+  // Atualizar o último comando
   useEffect(() => {
-    const interval = setInterval(fetchLastCommand, 1000); // Atualizar a cada 5 segundos
-    return () => clearInterval(interval); // Limpar o intervalo quando o componente for desmontado
-  }, []); // Sem dependências, portanto, apenas executa uma vez
+    const interval = setInterval(fetchLastCommand, 1000); // 1 segundinho
+    return () => clearInterval(interval); 
+  }, []); //  apenas executa uma vez
 
   return (
     <div className="topCard">

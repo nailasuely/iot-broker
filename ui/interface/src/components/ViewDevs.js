@@ -5,7 +5,6 @@ import projImg1 from "../assets/img/img-view3.png";
 import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import MainContainer from "./MainContainer";
 import Contain from "./Container";
 import { IP } from "./IP";
 
@@ -22,7 +21,7 @@ export const ViewDevices = () => {
     try {
       const response = await fetch(`http://${IP}:5001/devices`);
       const devices = await response.json();
-      const availableDevices = devices.slice(0, 6); // Limita a 6 dispositivos, dps melhorar isso
+      const availableDevices = devices.slice(0, 6); // mostra 6 disps 
       const deviceProjects = availableDevices.map(device => ({
         title: device,
         imgUrl: projImg1,
@@ -50,11 +49,11 @@ export const ViewDevices = () => {
         console.log((response))
         const responseData = await response.json();
         if (response.ok) {
-          if (responseData.data && responseData.data.data) { // Verifica se responseData.data e responseData.data.data não são undefined
-            // Adicionar os dados brutos ao histórico de dados brutos
+          if (responseData.data && responseData.data.data) { // verifica se eh undefined
+  
             addToRawData(responseData.data);
     
-            // Armazenar apenas o campo "data" em deviceData
+            // Armazenar "data" em deviceData
             setDeviceData(prevState => {
               const newData = responseData.data.data;
               return {

@@ -1,18 +1,11 @@
 import React from "react";
 import "./MainContainer.css";
 import Banner from "../assets/img/color-sharp.png";
-import Card1 from "../assets/img/img-view3.png";
-import Card2 from "../assets/img/img-view3.png";
-import Card3 from "../assets/img/img-view3.png";
-import Card4 from "../assets/img/img-view3.png";
-import Card5 from "../assets/img/img-view3.png";
-import Card6 from "../assets/img/img-view3.png";
 import MainRightTopCard from "./MainRightTopCard";
-import MainRightBottomCard from "./MainRightBottomCard";
 import CardDevices from "./CardDevices";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { ProjectCard } from "./CardView";
-import Clock from 'react-live-clock'; // Importando react-live-clock
+import Clock from 'react-live-clock'; 
 
 function MainContainer({ datas, devices, projects, devicesDatas}) {
   //console.log(projects);
