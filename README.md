@@ -279,25 +279,29 @@ Após enviar a requisição corretamente, o cliente recebe códigos de status HT
    - Visualize as respostas. 
 
 ![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
+## Conclusão
+
+Por fim, o projeto conseguiu desenvolver um sistema para gerenciar dispositivos IoT, permitindo a comunicação entre os dispositivos, o Broker e a aplicação. Foram implementadas funcionalidades como registro de dispositivos, envio de comandos, obtenção de dados e gerenciamento de conexões.
+
+Durante o desenvolvimento foi adquirida uma compreensão dos princípios de  comunicação de rede, desenvolvimento de APIs RESTful e gerenciamento de conexões em Python. Foi aprendido como aplicar o que foi aprendido em Sistemas Operacionais sobre os conceitos de threads, tratamento de erros e protocolos de comunicação. No entanto, algumas melhorias ainda podem ser feitas, como implementação de autenticação na API para garantir a segurança e melhorar o tratamento de erros e exceções.
+
+Dessa forma, o conhecimento adquirido neste projeto pode ser aplicado tanto em sistemas IoT , quanto em outros cenários de sistema distribuído que exijam comunicação entre dispositivos e servidores. 
 
 ## Equipe
 
-[//]: contributor-faces
-
-<a href="https://github.com/nailasuely"><img src="https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/naila.png" title="naila" width="100"></a>
-
-[//]: contributor-faces
-
+- Naila Suele
 
 ## Tutor
 
-<div style="display:flex;">
-    <a href="https://github.com/x-anf" style="display: inline-block; border: none;">
-
+- Antônio A. T. R. Coutinho
    
 </div>
 
 
 ## Referências 
-> - [1] 
-> - [2] 
+> - [1] Python Software Foundation. "threading — Thread-based parallelism." Python 3.12.3 documentation. https://docs.python.org/3/library/threading.html. Acessado em 2024.
+> - [2] Python Software Foundation. "socket — Low-level networking interface." Python 3.12.3 documentation. https://docs.python.org/3/library/socket.html. Acessado em 2024.
+> - [3] Pallets Projects. "Flask Documentation (3.0.x)." Flask. https://flask.palletsprojects.com/en/3.0.x/api/. Acessado em 2024.
+> - [4] WebDecoded. "React Project Tutorial: Build a Responsive Portfolio Website w/ Advanced Animations." Acessado em 2024
+> - [4] Python Software Foundation. "json — Codificador e decodificador JSON." Python 3.10.2 documentation. https://docs.python.org/3/library/json.html. Acessado em 2024
+> - Fabricio Veronez. "Docker do zero ao compose: Parte 01." Transmitido ao vivo em 24 de março de 2022.Youtube, https://www.youtube.com/watch?v=GkMJJkWRgBQ&t=2s. Acessado em 2024 
