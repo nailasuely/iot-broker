@@ -323,6 +323,12 @@
   
 }
 
+.noDevicesMessage {
+  text-align: center;
+  margin-top: 20%; /* Ajuste conforme necessário */
+  transform: translateY(-50%);
+}
+
 .project .maincontainer .right .topCard .topCard_name h2,
 .project .maincontainer .right .bottom_card .bottomCard_name h2 {
   font-size: 25px;

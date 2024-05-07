@@ -60,9 +60,6 @@ function MainRightTopCard() {
         <p className="lastCommandText">
           {lastCommand}
         </p>
-        <p>
-          Avisos 
-        </p>
       </div>
     </div>
   );

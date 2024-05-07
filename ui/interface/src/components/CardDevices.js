@@ -48,7 +48,7 @@ function CardDevices({ devices }) {
                             </div>
                         ))
                     ) : (
-                        <a>Nenhum dispositivo encontrado</a>
+                        <div className="noDevicesMessage">Nenhum dispositivo encontrado</div>
                     )}
                 </div>
             )}

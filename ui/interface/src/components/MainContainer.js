@@ -26,7 +26,7 @@ function MainContainer({ datas, devices, projects, devicesDatas}) {
             <h1>Dashboard</h1>
             <div className="bid">
               <p>
-                Horário <Clock format={'dddd, MMMM Do YYYY, h:mm:ss A'} ticking={true} timezone={'America/Sao_Paulo'} />
+                Today <Clock format={'dddd, MMMM Do YYYY, h:mm:ss A'} ticking={true} timezone={'America/Sao_Paulo'} />
               </p>
             </div>
           </div>
