@@ -187,6 +187,10 @@ Os comandos disponíveis para o dispositivo são esses:
 
 A aplicação funciona como um painel de controle para dispositivos IoT, no qual os usuários podem visualizar informações e interagir com os dispositivos. Com um sistema de abas, os usuários podem alternar entre diferentes visualizações, como um dashboard e uma lista de dispositivos.
 
+<div align="center">
+ <img width="600px" src="https://github.com/nailasuely/iot-broker/assets/98486996/eae937b1-e9f6-41ae-b970-2b72c3b84ba9">
+</div>
+
 A interface é construída usando componentes do React Bootstrap. Os dispositivos são representados por cartões, que exibem seu título e uma imagem associada. Além disso, são exibidos os dados correspondentes a cada dispositivo, permitindo aos usuários monitorar o status (conectado ou não conectado) 
 
 Para manter as informações dos dispositivos atualizadas, a aplicação realiza chamadas periódicas para o servidor utilizando o método `fetchData`. Essas chamadas são feitas a cada segundo, garantindo que os dados exibidos na interface estejam sempre atualizados.
