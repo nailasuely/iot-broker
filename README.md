@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-
+    <img width="400px" src="https://github.com/nailasuely/iot-broker/assets/98486996/5eae8d55-cf1b-47ed-985e-41fc27c450d9"> 
   <br>
   Internet das Coisas
   <br>
@@ -33,6 +33,15 @@ gh repo clone nailasuely/iot-broker
 
 ## Sumário
 - [Como utilizar](#Como-utilizar)
+- [Introdução](#Introdução)
+- [Tecnologias e Ferramentas Utilizadas](#Tecnologias-e-Ferramentas-Utilizadas)
+- [Metodologia](#Metodologia)
+  - [Estrutura do Projeto](#Estrutura-do-Projeto)
+  - [Broker](#Broker)
+  - [Dispositivo virtual](#Dispositivo-Virtual)
+  - [Aplicação](#Aplicação)
+  - [API RESTful](#Api-restful)
+- [Conclusão](#Conclusão)
 - [Equipe](#equipe)
 - [Tutor](#tutor)
 - [Referências](#referências)
@@ -111,6 +120,10 @@ gh repo clone nailasuely/iot-broker
    - Visualize as respostas. 
 
 ![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
+
+## Introdução 
+
+## Tecnologias e Ferramentas Utilizadas
 
 
 ## Equipe
