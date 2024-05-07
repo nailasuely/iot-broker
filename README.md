@@ -164,13 +164,19 @@ Os comandos disponíveis para o dispositivo são esses:
 6. Sair: Parar a execução do dispositivo e se desconecta totalmente com o broker.
    
 
+  
 ### Comunicação entre dispositivo e Broker
 
+Como falado anteriormente, entre e o Broker, dois protocolos de comunicação foram escolhidos: UDP e TCP. O protocolo UDP é utilizado para a transmissão de dados do sensor para o Broker. Essa comunicação é realizada de forma não confiável e sem conexão direta entre as partes, o que é uma escolha adequada para o envio de dados em tempo real. Já o protocolo TCP é usado para o envio de comandos do Broker para os dispositivos visto que oferece uma comunicação mais confiável orientada a conexão.
+
+<div align="center">
+  
 | Tipo de Comunicação | Protocolo | Descrição                                              |
 |----------------------|-----------|--------------------------------------------------------|
 | Envio de Dados       | UDP       | Utilizado para enviar dados dos dispositivos para o Broker. |
 | Comandos             | TCP       | Utilizado para enviar comandos do Broker para os dispositivos. |
 
+</div>
 
 ### API RESTful
 
