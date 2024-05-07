@@ -165,9 +165,10 @@ Os comandos disponíveis para o dispositivo são esses:
    
 
   
-### Comunicação entre dispositivo e Broker
+### Comunicação entre dispositivo, broker e aplicação
 
-Como falado anteriormente, entre e o Broker, dois protocolos de comunicação foram escolhidos: UDP e TCP. O protocolo UDP é utilizado para a transmissão de dados do sensor para o Broker. Essa comunicação é realizada de forma não confiável e sem conexão direta entre as partes, o que é uma escolha adequada para o envio de dados em tempo real. Já o protocolo TCP é usado para o envio de comandos do Broker para os dispositivos visto que oferece uma comunicação mais confiável orientada a conexão.
+- Camada de Transporte
+  Como falado anteriormente, entre e o Broker, dois protocolos de comunicação foram escolhidos: UDP e TCP. O protocolo UDP é utilizado para a transmissão de dados do sensor para o Broker. Essa comunicação é realizada de forma não confiável e sem conexão direta entre as partes, o que é uma escolha adequada para o envio de dados em tempo real. Já o protocolo TCP é usado para o envio de comandos do Broker para os dispositivos visto que oferece uma comunicação mais confiável orientada a conexão.
 
 <div align="center">
   
@@ -176,7 +177,21 @@ Como falado anteriormente, entre e o Broker, dois protocolos de comunicação fo
 | Envio de Dados       | UDP       | Utilizado para enviar dados dos dispositivos para o Broker. |
 | Comandos             | TCP       | Utilizado para enviar comandos do Broker para os dispositivos. |
 
+- Camada de Aplicação
+  Na camada de aplicação, os dispositivos e o Broker se comunicam trocando mensagens no formato JSON. Essas mensagens possuem informações sobre os dados do sensor, comandos a serem executados e notificações sobre o estado do dispositivo. O dispositivo organiza essas mensagens em pacotes de dados e transmite pela rede para o Broker.
+
+
 </div>
+
+### Aplicação 
+
+A aplicação funciona como um painel de controle para dispositivos IoT, no qual os usuários podem visualizar informações e interagir com os dispositivos. Com um sistema de abas, os usuários podem alternar entre diferentes visualizações, como um dashboard e uma lista de dispositivos.
+
+A interface é construída usando componentes do React Bootstrap. Os dispositivos são representados por cartões, que exibem seu título e uma imagem associada. Além disso, são exibidos os dados correspondentes a cada dispositivo, permitindo aos usuários monitorar o status (conectado ou não conectado) 
+
+Para manter as informações dos dispositivos atualizadas, a aplicação realiza chamadas periódicas para o servidor utilizando o método `fetchData`. Essas chamadas são feitas a cada segundo, garantindo que os dados exibidos na interface estejam sempre atualizados.
+
+O tratamento de erros é feito também para lidar com situações em que as requisições para o servidor falham. Mensagens de erro são exibidas no console do navegador, fornecendo informações úteis para a depuração e identificação de problemas de comunicação.
 
 ### API RESTful
 
@@ -194,7 +209,59 @@ A interface da aplicação faz a utilização do padrão REST (Representational 
 
 </div>
 
+
+-  Rota: `/devices`
+    -   Método: GET
+
+      ``` bash
+      curl -X GET http://ip-do-servidor:5001/devices
+      ```
+    
+- Rota: `/devices/<device_name>/name`
+  - Método: PUT
+    #### Corpo da requisição:
+    ```json
+    {
+        "new_name": "Novo Nome do Dispositivo"
+    }
+    ```
+    ---
+    
+    ```bash
+    curl -X PUT -H "Content-Type: application/json" -d '{"new_name": "Novo Nome do Dispositivo"}' http://ip-do-servidor:5001/devices/NomeAntigoDoDispositivo/name
+    ```
+- Rota: `/devices/<device_name>/data`
+  -  Método: GET
+  #### Como usar:
   
+  ```bash
+  curl -X GET http://ip-do-servidor:5001/devices/NomeDoDispositivo/data
+  ```
+  ---
+  
+- Rota: `/devices/<device_name>/command`
+  - Método: POST
+  
+  #### Corpo da requisição:
+  ```json
+  {
+      "command": "turn_on"
+  }
+  ```
+  ---
+  
+  ```bash
+  curl -X POST -H "Content-Type: application/json" -d '{"command": "turn_on"}' http://ip-do-servidor:5001/devices/NomeDoDispositivo/command
+  ```
+
+  ---
+
+- Rota: `/last_command`
+  - Método: GET
+    ```bash
+    curl -X GET http://ip-do-servidor:5001/last_command
+    ```
+
 Após enviar a requisição corretamente, o cliente recebe códigos de status HTTP que são retornados como parte das respostas do protocolo. Eles são importantes para comunicar o estado da operação ao cliente que fez a solicitação. A tabela a seguir mostra esses códigos: 
 
 <div align="center">
