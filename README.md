@@ -478,4 +478,5 @@ Dessa forma, o conhecimento adquirido neste projeto pode ser aplicado tanto em s
 > - [3] Pallets Projects. "Flask Documentation (3.0.x)." Flask. https://flask.palletsprojects.com/en/3.0.x/api/. Acessado em 2024.
 > - [4] WebDecoded. "React Project Tutorial: Build a Responsive Portfolio Website w/ Advanced Animations." Acessado em 2024
 > - [4] Python Software Foundation. "json — Codificador e decodificador JSON." Python 3.10.2 documentation. https://docs.python.org/3/library/json.html. Acessado em 2024
-> - Fabricio Veronez. "Docker do zero ao compose: Parte 01." Transmitido ao vivo em 24 de março de 2022.Youtube, https://www.youtube.com/watch?v=GkMJJkWRgBQ&t=2s. Acessado em 2024 
+> - [5] Dias, Gabriel Martins, Boris Bellalta, and Simon Oechsner. "Using data prediction techniques to reduce data transmissions in the IoT." 2016 IEEE 3rd World Forum on Internet of Things (WF-IoT). IEEE, 2016. Acessado em 2024
+> - [6] Fabricio Veronez. "Docker do zero ao compose: Parte 01." Transmitido ao vivo em 24 de março de 2022.Youtube, https://www.youtube.com/watch?v=GkMJJkWRgBQ&t=2s. Acessado em 2024 
