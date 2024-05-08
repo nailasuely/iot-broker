@@ -1,7 +1,7 @@
 
 <h1 align="center">
   <br>
-    <img width="400px" src="https://github.com/nailasuely/iot-broker/assets/98486996/5eae8d55-cf1b-47ed-985e-41fc27c450d9"> 
+    <img width="400px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/gif_logo.gif"> 
   <br>
   Internet das Coisas
   <br>
@@ -40,7 +40,9 @@ gh repo clone nailasuely/iot-broker
   - [Broker](#Broker)
   - [Dispositivo virtual](#Dispositivo-Virtual)
   - [Aplicação](#Aplicação)
+  - [Comunicação entre dispositivo, broker e aplicação](#Comunicação-entre-dispositivo,-broker-e-aplicação)
   - [API RESTful](#Api-restful)
+- [Testes](#Testes)
 - [Como utilizar](#Como-utilizar)
 - [Conclusão](#Conclusão)
 - [Equipe](#equipe)
@@ -71,10 +73,16 @@ Para atender aos requisitos e restrições do projeto, o desenvolvimento foi rea
 
 ## Metodologia 
 
-A arquitetura da solução foi desenvolvida para proporcionar uma comunicação adequada entre os dispositivos e aplicações. Ela é composta por três principais componentes: o serviço de broker, o dispositivo virtual simulado e a aplicação com interface de usuário (Imagem ??) . Cada um desses componentes desempenha tem o seu papél específico e se comunica de maneira organizada que possibilite a troca de mensagens entre eles. Esses componentes serão detalhados a seguir.
+<div align="center">
+ <img width="800px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/componentes.svg">
+  <p> Fig 1. Componentes do Sistema </p>
+</div>
+
+A arquitetura da solução foi desenvolvida para proporcionar uma comunicação adequada entre os dispositivos e aplicações. Ela é composta por três principais componentes: o serviço de broker, o dispositivo virtual simulado e a aplicação com interface de usuário (Imagem 2) . Cada um desses componentes desempenha tem o seu papél específico e se comunica de maneira organizada que possibilite a troca de mensagens entre eles. Esses componentes serão detalhados a seguir.
 
 <div align="center">
  <img width="" src="https://github.com/nailasuely/iot-broker/assets/98486996/0c3f65a9-a0ee-4214-b6da-6d9e4f7207e9">
+  <p> Fig 2. Estrutura das pastas para organização dos componentes </p>
 </div>
 
 ### Broker 
@@ -152,6 +160,7 @@ O dispositivo responde comandos enviados de forma remota, usando o broker como i
 
 <div align="center">
  <img width="" src="https://github.com/nailasuely/iot-broker/assets/98486996/6da68269-444b-4056-ad46-1fa27bc63408">
+  <p> Fig 3. Menu local do dispositivo </p>
 </div>
 
 Os comandos disponíveis para o dispositivo são esses: 
@@ -162,33 +171,27 @@ Os comandos disponíveis para o dispositivo são esses:
 4. Alterar o nome: Permite mudar o nome do sensor, fazendo a atualização localmente e notificando o broker sobre a alteração.
 5. Alterar o intervalo: Trocar o intervalo de geração de dados. 
 6. Sair: Parar a execução do dispositivo e se desconecta totalmente com o broker.
-   
-
-  
-### Comunicação entre dispositivo, broker e aplicação
-
-- Camada de Transporte
-  Como falado anteriormente, entre e o Broker, dois protocolos de comunicação foram escolhidos: UDP e TCP. O protocolo UDP é utilizado para a transmissão de dados do sensor para o Broker. Essa comunicação é realizada de forma não confiável e sem conexão direta entre as partes, o que é uma escolha adequada para o envio de dados em tempo real. Já o protocolo TCP é usado para o envio de comandos do Broker para os dispositivos visto que oferece uma comunicação mais confiável orientada a conexão.
-
-<div align="center">
-  
-| Tipo de Comunicação | Protocolo | Descrição                                              |
-|----------------------|-----------|--------------------------------------------------------|
-| Envio de Dados       | UDP       | Utilizado para enviar dados dos dispositivos para o Broker. |
-| Comandos             | TCP       | Utilizado para enviar comandos do Broker para os dispositivos. |
-
-- Camada de Aplicação
-  Na camada de aplicação, os dispositivos e o Broker se comunicam trocando mensagens no formato JSON. Essas mensagens possuem informações sobre os dados do sensor, comandos a serem executados e notificações sobre o estado do dispositivo. O dispositivo organiza essas mensagens em pacotes de dados e transmite pela rede para o Broker.
-
-
-</div>
 
 ### Aplicação 
 
 A aplicação funciona como um painel de controle para dispositivos IoT, no qual os usuários podem visualizar informações e interagir com os dispositivos. Com um sistema de abas, os usuários podem alternar entre diferentes visualizações, como um dashboard e uma lista de dispositivos.
 
+</p>
 <div align="center">
- <img width="600px" src="https://github.com/nailasuely/iot-broker/assets/98486996/eae937b1-e9f6-41ae-b970-2b72c3b84ba9">
+   <img width="800px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/Captura%20de%20tela%202024-05-07%20212525.png" />
+    <p> Fig 4. Aplicação esperando a conexão do broker</p>
+</div>
+
+</p>
+<div align="center">
+   <img width="800px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/Captura%20de%20tela%202024-05-07%20212801.png" />
+    <p> Fig 5. Broker conectado sem dispositivos registrados </p>
+</div>
+
+</p>
+<div align="center">
+   <img width="800px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/Captura%20de%20Tela%20(8).png" />
+    <p> Fig 6. Três Dispositivos Conectados </p>
 </div>
 
 A interface é construída usando componentes do React Bootstrap. Os dispositivos são representados por cartões, que exibem seu título e uma imagem associada. Além disso, são exibidos os dados correspondentes a cada dispositivo, permitindo aos usuários monitorar o status (conectado ou não conectado) 
@@ -196,6 +199,49 @@ A interface é construída usando componentes do React Bootstrap. Os dispositivo
 Para manter as informações dos dispositivos atualizadas, a aplicação realiza chamadas periódicas para o servidor utilizando o método `fetchData`. Essas chamadas são feitas a cada segundo, garantindo que os dados exibidos na interface estejam sempre atualizados.
 
 O tratamento de erros é feito também para lidar com situações em que as requisições para o servidor falham. Mensagens de erro são exibidas no console do navegador, fornecendo informações úteis para a depuração e identificação de problemas de comunicação.
+
+### Comunicação entre dispositivo, broker e aplicação
+
+<div align="center">
+ <img width="800px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/diagrama.svg">
+  <p> Fig 7. Comunicação entre os componentes </p>
+</div>
+
+No diagrama (Figura 7), é visto algumas das principais funções que possibitam o processo de envio de dados do dispositivo para o broker e o encaminhamento desses dados para a aplicação. Ao iniciar o broker, ocorrem as configurações do servidor de dados e do servidor de comandos, iniciando também as principais threads responsáveis por escutar os dados e gerenciar as conexões, incluindo escutar as respostas e registros de dispositivos.
+
+Olhando agora pelo lado do dispositivo, sua primeira tarefa é solicitar o endereço IP do servidor (broker) ao qual deseja se conectar. Em seguida, tenta se registrar no broker, e enquanto essa operação não é feita, continua tentando se conectar a cada cinco segundos. Após o registro, o dispositivo estabelece a comunicação e inicia uma thread para receber comandos e outra para enviar dados continuamente.
+
+Por fim, a aplicação desempenha o papel de enviar solicitações constantes para acessar os dados disponíveis no broker, completando assim o ciclo de comunicação entre os dispositivos, o broker e a aplicação.
+
+- Camada de Transporte
+  Como falado anteriormente, entre e o Broker, dois protocolos de comunicação foram escolhidos: UDP e TCP. O protocolo UDP é utilizado para a transmissão de dados do sensor para o Broker. Essa comunicação é realizada de forma não confiável e sem conexão direta entre as partes, o que é uma escolha adequada para o envio de dados em tempo real. Já o protocolo TCP é usado para o envio de comandos do Broker para os dispositivos visto que oferece uma comunicação mais confiável orientada a conexão.
+
+<div align="center">
+
+
+| Tipo de Comunicação | Protocolo | Descrição                                              |
+|----------------------|-----------|--------------------------------------------------------|
+| Envio de Dados       | UDP       | Utilizado para enviar dados dos dispositivos para o Broker. |
+| Comandos             | TCP       | Utilizado para enviar comandos do Broker para os dispositivos. |
+</div>
+
+- Camada de Aplicação
+  Na camada de aplicação, os dispositivos e o Broker se comunicam trocando mensagens no formato JSON. Essas mensagens possuem informações sobre os dados do sensor, comandos a serem executados e notificações sobre o estado do dispositivo. O dispositivo organiza essas mensagens em pacotes de dados e transmite pela rede para o Broker.
+  
+  No diálogo entre o dispositivo e o broker, o processo começa com uma mensagem de registro enviada pelo dispositivo para o broker. Esta mensagem contém informações como o tipo do dispositivo, seu nome e seu estado (ligado ou desligado). Em seguida, o dispositivo envia regularmente mensagens de dados para o broker. Cada mensagem inclui o nome do dispositivo como fonte, os dados coletados, o tempo da coleta, o tipo de sensor e o estado atual do dispositivo. Essas mensagens são essenciais para manter o broker atualizado com as informações mais recentes dos dispositivos, permitindo que a aplicação acesse dados em tempo real.
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/Captura%20de%20tela%202024-05-07%20201408.png" />
+    <p> Fig 8. Mensagem de registro </p>
+</div>
+
+</p>
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/Captura%20de%20tela%202024-05-07%20200447.png" />
+    <p> Fig 9. Mensagem de Dados </p>
+</div>
+
 
 ### API RESTful
 
@@ -278,6 +324,50 @@ Após enviar a requisição corretamente, o cliente recebe códigos de status HT
 
 </div>
 
+## Testes
+
+Nos testes, além dos realizados diretamente na aplicação React, também foram executados testes utilizando o Postman. Abaixo estão os resultados desses testes realizados por meio do Postman.
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/devices.png" />
+    <p> Fig 10. Obter dispositivos </p>
+</div>
+
+</p>
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/novo_nome.png" />
+    <p> Fig 11. Alterar nome </p>
+</div>
+
+</p>
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/obter_dados.png" />
+    <p> Fig 12. Obter dados </p>
+</div>
+
+</p>
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/command_ligar.png" />
+    <p> Fig 13. Comando "turn_on" </p>
+</div>
+
+</p>
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/command_off.png" />
+    <p> Fig 14. Comando "turn_off" </p>
+</div>
+
+</p>
+
+<div align="center">
+   <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/command_restart.png" />
+    <p> Fig 15. Comando "restart" </p>
+</div>
+
 ## Como utilizar
 
 1. Clone ou faça o download do repositório.
@@ -287,8 +377,11 @@ Após enviar a requisição corretamente, o cliente recebe códigos de status HT
 
 1. **Usando Docker:**
     - Vá até o diretório no qual o serviço broker está localizado.
-    - Execute o seguinte comando para iniciar o serviço broker:
+    - Execute o seguintes comando para iniciar o serviço broker:
       
+        ```
+        docker build -t broker-service /iot-broker-main/broker
+        ```
         ```
         docker container run -it --network host broker-service
         ```
@@ -302,7 +395,17 @@ Após enviar a requisição corretamente, o cliente recebe códigos de status HT
         ```
 
 ### • Execução dos Dispositivos Virtuais:
-  2. **Execução Convencional:**
+  1. **Usando Docker:**
+      - Vá até o diretório devices (iot-broker\device).
+      - Execute o seguintes comandos:
+      
+        ```
+         docker build -t device .
+        ```
+        ```
+         docker container run -it --network host device
+        ```
+  3. **Execução Convencional:**
      - Após iniciar o serviço broker, abra um novo terminal em sua própria máquina ou em outra que contém o dispositivo. 
      - Execute o seguinte comando:
        
