@@ -78,7 +78,7 @@ Para atender aos requisitos e restrições do projeto, o desenvolvimento foi rea
   <p> Fig 1. Componentes do Sistema </p>
 </div>
 
-A arquitetura da solução foi desenvolvida para proporcionar uma comunicação adequada entre os dispositivos e aplicações. Ela é composta por três principais componentes: o serviço de broker, o dispositivo virtual simulado e a aplicação com interface de usuário (Imagem 2) . Cada um desses componentes desempenha tem o seu papél específico e se comunica de maneira organizada que possibilite a troca de mensagens entre eles. Esses componentes serão detalhados a seguir.
+A arquitetura da solução foi desenvolvida para proporcionar uma comunicação adequada entre os dispositivos e aplicações. Ela é composta por três principais componentes: o serviço de broker, o dispositivo virtual simulado e a aplicação com interface de usuário (Figura 2) . Cada um desses componentes desempenha tem o seu papél específico e se comunica de maneira organizada que possibilite a troca de mensagens entre eles. Esses componentes serão detalhados a seguir.
 
 <div align="center">
  <img width="" src="https://github.com/nailasuely/iot-broker/assets/98486996/0c3f65a9-a0ee-4214-b6da-6d9e4f7207e9">
