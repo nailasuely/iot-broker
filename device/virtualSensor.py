@@ -200,7 +200,6 @@ class VirtualSensor:
             logging.error(f"Erro ao receber comandos: {e}")
         finally:
             logging.info(f"Parando o recebimento de comandos para o sensor '{self.sensor_name}'")
-            self.sock_cmd.close()
 
     def process_command(self, command):
         """
@@ -371,7 +370,7 @@ if __name__ == "__main__":
         server_ip = input("Digite o endereço IP do servidor: ")
     data_server_port = 9999
     broker_port = 9998
-    sensor_name = "TempretatureSensor"
+    sensor_name = "TemperatureSensor3"
 
     sensor = VirtualSensor(server_ip, data_server_port, server_ip, broker_port, sensor_name)
 
