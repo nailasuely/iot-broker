@@ -60,6 +60,7 @@ A proposta  é criar um serviço de broker que facilite a troca de mensagens ent
 
 Para atender aos requisitos e restrições do projeto, o desenvolvimento foi realizado utilizando Python para o backend, tanto para o serviço broker quanto para o dispositivo virtual, enquanto a aplicação foi desenvolvida em React para a interface do usuário. A comunicação entre os dispositivos virtuais e o serviço broker foi implementada utilizando a interface de socket nativa do TCP/IP para comandos e UDP para dados, enquanto a comunicação entre o serviço broker e a aplicação foi realizada por meio de uma API RESTful.
 
+![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
 
 ## Tecnologias e Ferramentas Utilizadas
 - **Python:** Linguagem de programação. 
@@ -70,6 +71,8 @@ Para atender aos requisitos e restrições do projeto, o desenvolvimento foi rea
 - **CORS** (Cross-Origin Resource Sharing): Extensão Flask  que é utilizada para permitir solicitações de diferentes origens para API.
 - **Postman:** Plataforma para teste e desenvolvimento de APIs,
 - **Docker:** Ferramenta para empacotar e distribuir aplicativos em contêineres.
+
+![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
 
 ## Metodologia 
 
@@ -125,7 +128,6 @@ As principais funções do broker são as seguintes:
    - Esta função envia comandos para dispositivos específicos. Ela utiliza a conexão TCP estabelecida com o dispositivo para enviar o comando desejado. O comando é codificado em bytes e enviado através da conexão TCP. Isso permite que as aplicações enviem comandos para controlar os dispositivos conectados ao broker.
 
 Além disso, a função `start_escutarDados` é responsável por escutar continuamente os dados dos dispositivos, paea que o broker sempre esteja pronto para receber informações.E a função `manageDeviceConnectio` precisa lidar com múltiplas conexões de dispositivos de forma simultânea, permitindo que o broker gerencie diversas interações ao mesmo tempo. Assim, essas operações ocorrem em threads separadas para evitar bloqueios, garantindo assim a capacidade de resposta do sistema mesmo diante de múltiplas requisições concorrentes. 
-
 
 ### Dispositivo virtual (sensor e atuador)
 
@@ -324,6 +326,8 @@ Após enviar a requisição corretamente, o cliente recebe códigos de status HT
 
 </div>
 
+![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
+
 ## Testes
 
 Nos testes, além dos realizados diretamente na aplicação React, também foram executados testes utilizando o Postman. Abaixo estão os resultados desses testes realizados por meio do Postman.
@@ -367,6 +371,8 @@ Nos testes, além dos realizados diretamente na aplicação React, também foram
    <img width="600px" src="https://github.com/nailasuely/iot-broker/blob/main/assets/command_restart.png" />
     <p> Fig 15. Comando "restart" </p>
 </div>
+
+![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
 
 ## Como utilizar
 
@@ -461,6 +467,8 @@ Durante o desenvolvimento foi adquirida uma compreensão dos princípios de  com
 
 Dessa forma, o conhecimento adquirido neste projeto pode ser aplicado tanto em sistemas IoT , quanto em outros cenários de sistema distribuído que exijam comunicação entre dispositivos e servidores. 
 
+![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
+
 ## Equipe
 
 - Naila Suele
@@ -471,6 +479,7 @@ Dessa forma, o conhecimento adquirido neste projeto pode ser aplicado tanto em s
    
 </div>
 
+![-----------------------------------------------------](https://github.com/nailasuely/breakout-problem3/blob/main/assets/img/prancheta.png)
 
 ## Referências 
 > - [1] Python Software Foundation. "threading — Thread-based parallelism." Python 3.12.3 documentation. https://docs.python.org/3/library/threading.html. Acessado em 2024.
