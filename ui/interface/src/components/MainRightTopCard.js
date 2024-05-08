@@ -3,6 +3,7 @@ import { IP } from "./IP";
 
 function MainRightTopCard() {
   const [lastCommand, setLastCommand] = useState("");
+  const [aviso, setAviso] = useState("");
 
   // Função para obter o último comando
   const fetchLastCommand = async () => {
@@ -41,11 +42,44 @@ function MainRightTopCard() {
     }
   };
 
+  const fetchAviso = async () => {
+    try {
+      const response2 = await fetch(`http://${IP}:5001/avisos`);
+      const data2 = await response2.json();
+      const { aviso } = data2;
+      if (aviso) {
+        // Formatar o comando de acordo com o tipo
+        switch (aviso.type) {
+          case "inatividade":
+            setAviso(`O sensor ${aviso.device_name} está inativo.`);
+            break;
+          default:
+            setAviso("Sem avisos");
+        }
+      }
+    } catch (error) {
+      console.error("Erro ao obter o aviso:", error);
+    }
+  };
+
+  /*
   // Atualizar o último comando
   useEffect(() => {
     const interval = setInterval(fetchLastCommand, 1000); // 1 segundinho
     return () => clearInterval(interval); 
   }, []); //  apenas executa uma vez
+*/
+
+  useEffect(() => {
+    const intervalLastCommand = setInterval(fetchLastCommand, 1000);
+    const intervalAviso = setInterval(fetchAviso, 1000);
+    
+    return () => {
+      clearInterval(intervalLastCommand);
+      clearInterval(intervalAviso);
+    };
+  }, []);
+
 
   return (
     <div className="topCard">
@@ -59,6 +93,12 @@ function MainRightTopCard() {
         </p>
         <p className="lastCommandText">
           {lastCommand}
+        </p>
+        <p>
+          Avisos: 
+        </p>
+        <p className="lastCommandText">
+          {aviso}
         </p>
       </div>
     </div>

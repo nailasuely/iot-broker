@@ -4,4 +4,4 @@ COPY . ./app
 WORKDIR /app
 
 
-CMD ["python", "devicee.py"]
+CMD ["python", "virtualSensor.py"]

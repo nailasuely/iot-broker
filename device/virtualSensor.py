@@ -165,7 +165,7 @@ class VirtualSensor:
                 self.is_on = True
                 break
             except Exception as e:
-                logging.error(f"Erro ao registrar com o broker: {e}")
+                logging.error("Dispositivo não está conseguindo se conectar ao broker.")
                 logging.info("Tentando novamente em 5 segundos...")
                 time.sleep(5)  # Espera 5 segundos antes de tentar novamente
 
@@ -229,6 +229,10 @@ class VirtualSensor:
         else:
             logging.error("Comando inválido")
 
+    def registrar(self):
+        self.disconnect_from_broker()
+        self.register_with_broker_with_retry()
+    
     def turn_on(self):
         """
         Liga o sensor.
@@ -241,6 +245,7 @@ class VirtualSensor:
             logging.info("Notificação de ligar enviada para o broker")
         except Exception as e:
             logging.error(f"Erro ao enviar notificação de ligar para o broker: {e}")
+            
             
     def turn_off(self):
         """
@@ -308,6 +313,7 @@ def menu(sensor):
         print("3. Trocar o nome do sensor")
         print("4. Trocar o intervalo de geração de dados")
         print("5. Sair")
+        print("6. Reconectar novamente")
         print("─────────────────────────────────────────────────\n")
 
         choice = input("Escolha uma opção: ")
@@ -337,6 +343,10 @@ def menu(sensor):
             logging.info("Saindo...")
             sensor.shutdown()
             return
+        elif choice == "6":
+            logging.info("Registrando...")
+            sensor.registrar()
+            return
         else:
             print("Opção inválida. Tente novamente.")
         input("Pressione Enter para continuar...")
@@ -361,7 +371,7 @@ if __name__ == "__main__":
         server_ip = input("Digite o endereço IP do servidor: ")
     data_server_port = 9999
     broker_port = 9998
-    sensor_name = "TemperatureSensor"
+    sensor_name = "TempretatureSensor"
 
     sensor = VirtualSensor(server_ip, data_server_port, server_ip, broker_port, sensor_name)
 

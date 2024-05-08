@@ -40,6 +40,8 @@ class Broker:
         self.setup_command_server()
         self.ip = '0.0.0.0'
         self.device_data_timestamp = {}
+        self.avisos = None
+        
 
     def setup_data_server(self):
         """
@@ -77,6 +79,17 @@ class Broker:
         """
         self.last_operation = {"type": operation_type, "device_name": device_name}
     
+    def update_avisos(self, aviso, device_name=None):
+        """
+        Essa função é apenas para guardar qual foi o ultimo comando feito.
+
+        Args:
+            operation_type (str): Tipo de operação realizada.
+            device_name (str): Nome do dispositivo (não é sempre que precisa).
+        """
+        self.avisos = {"type": aviso, "device_name": device_name}
+        
+    
     def get_last_operation(self):
         """
         Função para obter o ultimo comando realizado. 
@@ -85,6 +98,15 @@ class Broker:
             dict: Última operação realizada.
         """
         return self.last_operation
+    
+    def get_avisos(self):
+        """
+        Função para obter o ultimo comando realizado. 
+
+        Returns:
+            dict: Última operação realizada.
+        """
+        return self.avisos
 
     def processData(self):
         """
@@ -95,10 +117,10 @@ class Broker:
         while True:
             data, sender_address = self.data_sock.recvfrom(1024)
             message = json.loads(data.decode())
-            logging.info(f"Dados recebidos do dispositivo: '{message['source']}': {message['data']}")
+            # logging.info(f"Dados recebidos do dispositivo: '{message['source']}': {message['data']}")
             self.datas[message['source']] = message
 
-            self.device_data_timestamp[message['source']] = datetime.now()
+            self.device_data_timestamp[message['source']] = datetime.now()             
 
             with self.lock:
                 for connection in self.datas.values():
@@ -172,6 +194,9 @@ class Broker:
             self.devices[name] = connection
             logging.info(f"Device '{name}' registrado")
             self.device_data_timestamp[name] = datetime.now()
+            self.update_avisos("none", name)
+            
+                
 
     def shutdown_device(self, device_name):
         """
@@ -281,16 +306,18 @@ class Broker:
             for device_name, last_data_time in self.device_data_timestamp.items():
                 if current_time - last_data_time > no_data_threshold:
                     print(f"Não estão sendo recebidos dados do dispositivo '{device_name}' há mais de 5 segundos.")
+                    self.update_avisos("inatividade", device_name)
                     devices_to_remove.append(device_name)
 
-            # Remover os dispositivos que não enviaram dados por mais de 5 segundos
+            # Remover os dispositivos que não enviaram dados por mais de 5 segundos]
+            '''
             for device_name in devices_to_remove:
                 if device_name in self.devices:
                     del self.devices[device_name]
                     logging.info(f"Device '{device_name}' removido do dicionário do broker")
                     # Remove o registro de tempo do último dado recebido para o dispositivo desconectado
                     if device_name in self.device_data_timestamp:
-                        del self.device_data_timestamp[device_name]
+                        del self.device_data_timestamp[device_name]'''
                 
     def start(self):
         """
@@ -388,6 +415,21 @@ def get_last_command():
     else:
         return jsonify({'error': 'Nenhum comando foi dado ainda'}), 404
 
+
+
+@app.route('/avisos', methods=['GET'])
+def get_avisos():
+    """
+    Rota para obter os avisos
+
+    Returns:
+        str: Última operação realizada em formato JSON ou uma mensagem de erro caso não haja operações.
+    """
+    avs = broker.get_avisos()
+    if avs:
+        return jsonify({'aviso': avs}), 200
+    else:
+        return jsonify({'error': 'Nenhum aviso foi dado ainda'}), 404
 
 def check_data_status_periodically():
     """
